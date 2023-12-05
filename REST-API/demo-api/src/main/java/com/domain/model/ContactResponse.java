@@ -4,9 +4,6 @@
  */
 package com.domain.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,24 +11,20 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Aceng <acengtjhin69@aniboys.id>
- * @version $Id: ContactUserRequest.java, v 0.1 2023‐12‐05 15:04 Aceng Exp $$
+ * @version $Id: ContactResponse.java, v 0.1 2023‐12‐05 15:55 Aceng Exp $$
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class CreateContactRequest {
-    @NotBlank
-    @Size(max = 100)
+public class ContactResponse {
+    private String id;
+
     private String firstName;
 
-    @Size(max = 100)
     private String lastName;
 
-    @Size(max = 100)
-    @Email
     private String email;
 
-    @Size(max = 100)
     private String phone;
 }
