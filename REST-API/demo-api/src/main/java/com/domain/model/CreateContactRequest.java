@@ -11,8 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.crypto.Mac;
-
 /**
  * @author Aceng <acengtjhin69@aniboys.id>
  * @version $Id: ContactUserRequest.java, v 0.1 2023‐12‐05 15:04 Aceng Exp $$
@@ -21,7 +19,7 @@ import javax.crypto.Mac;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ContactUserRequest {
+public class CreateContactRequest {
     @NotBlank
     @Size(max = 100)
     private String firstName;
