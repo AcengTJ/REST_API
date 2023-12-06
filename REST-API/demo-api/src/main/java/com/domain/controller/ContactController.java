@@ -3,6 +3,7 @@ package com.domain.controller;
 import com.domain.entity.User;
 import com.domain.model.ContactResponse;
 import com.domain.model.CreateContactRequest;
+import com.domain.model.UpdateContactRequest;
 import com.domain.model.WebResponse;
 import com.domain.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,29 @@ public class ContactController {
     public WebResponse<ContactResponse> get(User user,@PathVariable("contactId") String contactId) {
         ContactResponse contactResponse = contactService.get(user, contactId);
         return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+    }
+
+    @PutMapping(
+            path = "/api/contacts/{contactId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<ContactResponse> update(User user,
+                                               @RequestBody UpdateContactRequest request,
+                                               @PathVariable("contactId") String contactId) {
+        request.setId(contactId);
+
+        ContactResponse contactResponse = contactService.update(user, request);
+        return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+    }
+
+    @DeleteMapping(
+            path = "/api/contacts/{contactId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> delete(User user, @PathVariable("contactId") String contactId) {
+        contactService.delete(user, contactId);
+        return WebResponse.<String>builder().data("Ok").build();
     }
 
 }

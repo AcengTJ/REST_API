@@ -4,6 +4,7 @@
  */
 package com.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UpdateContactRequest {
+    @JsonIgnore
     @NotBlank
     private String id;
 

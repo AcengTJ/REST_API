@@ -8,6 +8,8 @@ import com.domain.entity.Contact;
 import com.domain.entity.User;
 import com.domain.model.ContactResponse;
 import com.domain.model.CreateContactRequest;
+import com.domain.model.UpdateContactRequest;
+import com.domain.model.UpdateUserRequest;
 import com.domain.repository.ContactRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -62,5 +64,27 @@ public class ContactService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
 
         return toContactResponse(contact);
+    }
+
+    @Transactional
+    public ContactResponse update(User user, UpdateContactRequest request) {
+        validationService.validate(request);
+        Contact contact = contactRepository.findFirstByUserAndId(user, request.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
+
+        contact.setFirstName(request.getFirstName());
+        contact.setLastName(request.getLastName());
+        contact.setEmail(request.getEmail());
+        contact.setPhone(request.getPhone());
+        contactRepository.save(contact);
+
+        return toContactResponse(contact);
+    }
+
+    public void delete(User user, String contactId) {
+        Contact contact = contactRepository.findFirstByUserAndId(user, contactId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
+
+        contactRepository.delete(contact);
     }
 }
