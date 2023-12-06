@@ -114,6 +114,8 @@ public class ContactControllerTest {
             assertEquals("test", response.getData().getLastName());
             assertEquals("test@gmail.com", response.getData().getEmail());
             assertEquals("081221128909", response.getData().getPhone());
+
+            assertTrue(contactRepository.existsById(response.getData().getId()));
         });
     }
 }
