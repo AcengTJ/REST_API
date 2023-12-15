@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
+import java.util.List;
 
 @RestController
 public class AddressController {
@@ -66,5 +67,15 @@ public class AddressController {
                                       @PathVariable("addressId") String addressId) {
         addressService.remove(user, contactId, addressId);
         return WebResponse.<String>builder().data("Ok").build();
+    }
+
+    @GetMapping(
+            path = "/api/contacts/{contactId}/addresses",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<List<AddressResponse>> list(User user,
+                                  @PathVariable("contactId") String contactId) {
+        List<AddressResponse> addressResponses = addressService.list(user, contactId);
+        return WebResponse.<List<AddressResponse>>builder().data(addressResponses).build();
     }
 }
