@@ -3,6 +3,7 @@ package com.domain.controller;
 import com.domain.entity.User;
 import com.domain.model.AddressResponse;
 import com.domain.model.CreateAddressRequest;
+import com.domain.model.UpdateAddressRequest;
 import com.domain.model.WebResponse;
 import com.domain.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,32 @@ public class AddressController {
                                             @PathVariable("addressId") String addressId) {
         AddressResponse addressResponse = addressService.get(user, contactId, addressId);
         return WebResponse.<AddressResponse>builder().data(addressResponse).build();
+    }
+
+    @PutMapping(
+            path = "/api/contacts/{contactId}/addresses/{addressId}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<AddressResponse> update(User user,
+                                               @RequestBody UpdateAddressRequest request,
+                                               @PathVariable("contactId") String contactId,
+                                               @PathVariable("addressId") String addressId) {
+        request.setContactId(contactId);
+        request.setAddressId(addressId);
+
+        AddressResponse addressResponse = addressService.update(user, request);
+        return WebResponse.<AddressResponse>builder().data(addressResponse).build();
+    }
+
+    @DeleteMapping(
+            path = "/api/contacts/{contactId}/addresses/{addressId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> remove(User user,
+                                      @PathVariable("contactId") String contactId,
+                                      @PathVariable("addressId") String addressId) {
+        addressService.remove(user, contactId, addressId);
+        return WebResponse.<String>builder().data("Ok").build();
     }
 }
